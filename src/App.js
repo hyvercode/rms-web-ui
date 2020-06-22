@@ -15,6 +15,7 @@ import PrivateRoute from "./router/PrivateRoute";
 import Country from "./pages/master/country/Country";
 import CreateCountry from "./pages/master/country/CreateCountry";
 import Bank from "./pages/master/bank/Bank";
+import CreateBank from "./pages/master/bank/CreateBank";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
                     <PrivateRoute exact path="/country" component={Country} />
                     <PrivateRoute exact path="/create-country" component={CreateCountry} />
                     <PrivateRoute exact path="/bank" component={Bank} />
+                    <PrivateRoute exact path="/create-bank" component={CreateBank} />
                     <PublicRoute component={NotFound} />
                   </main>            
             </div>

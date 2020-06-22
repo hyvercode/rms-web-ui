@@ -15,7 +15,8 @@ export default class CreateBank extends Component {
       bankName: "",
       bankImageLink:"",
       countryCode:"",
-      active: "Y"
+      active: "Y",
+      listCountry:[]
     };
   }
 
@@ -37,6 +38,18 @@ export default class CreateBank extends Component {
       active: e.target.value,
     });
   };
+
+  onChangeCountryCode = (e) =>{
+    this.setState({
+      countryCode:e.target.value
+    })
+  }
+
+  onChangeBankImageLink = (e) =>{
+    this.setState({
+      bankImageLink:e.target.value
+    })
+  }
 
   onSave = () => {
       if(this.state.bankId !="" && this.state.bankName!==""){
@@ -64,7 +77,7 @@ export default class CreateBank extends Component {
       }
     ).then(
       (response) => {
-       this.props.history.push('/country');
+       this.props.history.push('/bank');
       },
       (error) => {
         if (error.response.data.status === 401) {
@@ -77,7 +90,43 @@ export default class CreateBank extends Component {
       }
     );
   };
+  // call country list
+  getListCountry= () =>{
+    Api.get(
+      "/v1/country/countries?countryName=a",
+      {
+        headers: {
+          Authorization: getToken(),
+        },
+      }
+    ).then(
+      (response) => {
+        this.setState({ listCountry:response.data.content });
+      },
+      (error) => {
+        if (error.response.data.status === 401) {
+          removeUserSession();
+        }
+        this.setState({
+          isLoading: false,
+          error: error,
+        });
+      }
+    );
+  }
 
+  componentDidMount(){
+    this.getListCountry();
+  }
+
+  renderCountyList = ()=>{
+      return this.state.listCountry.map((countries,index) => {
+          const {countryCode,countryName} = countries;
+           return(
+             <option key={index} value={countryCode}>{countryName}</option>
+           )
+        })
+  }
   render() {
     return (
       <div className="">
@@ -97,7 +146,7 @@ export default class CreateBank extends Component {
                       type="text"
                       id="countryCode"
                       className="form-control form-control-sm"
-                      placeholder="input country code"
+                      placeholder="input bank id"
                       onChange={this.onChangeBankId}
                       required
                     />
@@ -112,7 +161,7 @@ export default class CreateBank extends Component {
                       type="text"
                       id="countryName"
                       className="form-control form-control-sm"
-                      placeholder="input country name"
+                      placeholder="input bank name"
                       onChange={this.onChangeBankName}
                       required
                     />
@@ -124,15 +173,28 @@ export default class CreateBank extends Component {
                   >
                     Country
                   </label>
-                  <div className="col-sm-8" id="acitve">
+                  <div className="col-sm-8">
                     <select
                       className="form-control form-control-sm"
-                      onChange={this.onChangeActive}
+                      onChange={this.onChangeCountryCode}
                       required
                     >
-                      <option value="Y">Yes</option>
-                      <option value="N">No</option>
+                      {this.renderCountyList()}
                     </select>
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <label className="col-sm-4 col-md-4 col-lg-4 col-form-label">
+                    Bank Image
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      placeholder="image"
+                      onChange={this.onChangeBankImageLink}
+                      required
+                    />
                   </div>
                 </div>
                 <div className="form-group row">
