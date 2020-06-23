@@ -5,8 +5,9 @@ import {
   removeUserSession,
   getToken,
 } from "../../../utils/Common";
+import {useParams} from "react-router-dom";
 
-export default class CreateBank extends Component {
+export default class UpdateBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +17,7 @@ export default class CreateBank extends Component {
       bankImageLink: "",
       countryCode: "",
       active: "Y",
-      listCountry: [],
+      listCountry: []
     };
   }
 
@@ -72,7 +73,7 @@ export default class CreateBank extends Component {
   //Post Country
   postBank = () => {
     Api.post(
-      "/v1/bank/add",
+      "/v1/bank/update",
       {
         bankId: this.state.bankId,
         bankName: this.state.bankName,
@@ -122,8 +123,37 @@ export default class CreateBank extends Component {
     );
   };
 
-  componentDidMount() {
-    this.getListCountry();
+  getDetailBank = () =>{
+    Api.get("/v1/bank/detail/", {
+        headers: {
+          Authorization: getToken(),
+        },
+      }).then(
+        (response) => {
+          var bank = response.data;
+          this.setState({ 
+              bankId:bank.bankId,
+              bankName:bank.bankName,
+              bankImageLink:bank.bankImageLink,
+              countryCode:bank.countryCode,
+              active:bank.active
+          });
+        },
+        (error) => {
+          if (error.response.data.status === 401) {
+            removeUserSession();
+          }
+          this.setState({
+            isLoading: false,
+            error: error,
+          });
+        }
+      );
+  }
+
+  async componentDidMount() {
+    await this.getDetailBank();
+    await this.getListCountry();
   }
 
   renderCountyList = () => {
@@ -140,7 +170,7 @@ export default class CreateBank extends Component {
     return (
       <div className="">
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-          <h3 className="h3">Create Bank</h3>
+          <h3 className="h3">Edit Bank</h3>
         </div>
         <div className="container">
           <div className="row">
@@ -156,8 +186,9 @@ export default class CreateBank extends Component {
                       id="countryCode"
                       className="form-control form-control-sm"
                       placeholder="input bank id"
+                      value={this.state.bankId}
                       onChange={this.onChangeBankId}
-                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -171,6 +202,7 @@ export default class CreateBank extends Component {
                       id="countryName"
                       className="form-control form-control-sm"
                       placeholder="input bank name"
+                      value={this.state.bankName}
                       onChange={this.onChangeBankName}
                       required
                     />
@@ -183,10 +215,10 @@ export default class CreateBank extends Component {
                   <div className="col-sm-8">
                     <select
                       className="custom-select d-block w-100 custom-select-sm"
+                      value={this.state.countryCode}
                       onChange={this.onChangeCountryCode}
                       required
                     >
-                      <option value="" disabled>Choose...</option>
                       {this.renderCountyList()}
                     </select>
                   </div>
@@ -216,6 +248,7 @@ export default class CreateBank extends Component {
                     <select
                       className="custom-select d-block w-100 custom-select-sm"
                       onChange={this.onChangeActive}
+                      value={this.state.active}
                       required
                     >
                       <option value="Y">Yes</option>

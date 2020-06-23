@@ -153,7 +153,7 @@ export default class Country extends Component {
           <div className="btn-toolbar mb-2 mb-md-0">
             <label style={{ marginTop: 5 }}>Record : </label>
             <select
-              className="form-control form-control-sm"
+              className="custom-select d-block w-10 custom-select-sm"
               style={{ width: 80, marginLeft: 5 }}
               value={this.state.pagination.pageSize}
               onChange={this.onChangeRecords.bind(this)}
