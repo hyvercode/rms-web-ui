@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Api from "../../../adaptor/Api";
 import { Link, Redirect } from "react-router-dom";
 import { getToken, removeUserSession } from "../../../utils/Common";
+import Spinner from "../../../component/loading/Spinner";
 
 export default class Country extends Component {
   constructor(props) {
@@ -62,16 +63,15 @@ export default class Country extends Component {
     await this.getListCountry();
   }
 
+  onEdit(countryId){
+    this.props.history.push('/bank/update-country/'+countryId);
+  }
+
   renderTableData() {
     return this.state.countries.map((countries, index) => {
       const { countryId, countryCode, countryName, active } = countries; //destructuring
       return (
         <tr key={countryId}>
-          <td>
-            <div className="checkbox">
-              <input type="checkbox" />
-            </div>
-          </td>
           <td>
             {this.state.pagination.pageSize *
               (this.state.pagination.currentPage - 1) +
@@ -81,6 +81,19 @@ export default class Country extends Component {
           <td>{countryCode}</td>
           <td>{countryName}</td>
           <td>{active == "Y" ? "Yes" : "No"}</td>
+          <td className="action-button">
+            <button
+                className="btn btn-sm btn-outline-secondary"
+                onClick={() => this.onEdit(countryId)}
+              >
+              Edit
+            </button>
+            <button
+                className="btn btn-sm btn-outline-secondary"
+              >
+              Delete
+            </button>
+           </td>
         </tr>
       );
     });
@@ -113,7 +126,7 @@ export default class Country extends Component {
   render() {
     return (
       <div className="app">
-        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 pagination">
           <h3 className="h3">Country</h3>
           <div className="btn-toolbar mb-2 mb-md-0">
             <div className="btn-group mr-2">
@@ -123,10 +136,6 @@ export default class Country extends Component {
               >
                 Add New
               </Link>
-              <button className="btn btn-sm btn-outline-secondary">Edit</button>
-              <button className="btn btn-sm btn-outline-secondary">
-                Delete
-              </button>
             </div>
           </div>
         </div>
@@ -134,18 +143,14 @@ export default class Country extends Component {
           <table className="table table-striped table-md">
             <thead>
               <tr>
-                <th>
-                  <div className="checkbox">
-                    <input type="checkbox" />
-                  </div>
-                </th>
                 <th>No</th>
                 <th>Country Code</th>
                 <th>Country Name</th>
                 <th>Active</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody>{this.renderTableData()}</tbody>
+            {this.state.isLoading ? <Spinner /> :<tbody>{this.renderTableData()}</tbody>}
           </table>
         </div>
         {/* Pagination */}

@@ -102,7 +102,7 @@ export default class CreateBank extends Component {
   };
   // call country list
   getListCountry = () => {
-    Api.get("/v1/country/countries?countryName=a", {
+    Api.get("/v1/country/countries?countryName=", {
       headers: {
         Authorization: getToken(),
       },

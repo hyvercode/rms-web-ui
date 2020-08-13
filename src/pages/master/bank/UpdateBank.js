@@ -6,12 +6,13 @@ import {
   getToken,
 } from "../../../utils/Common";
 import {useParams} from "react-router-dom";
+import Spinner from "../../../component/loading/Spinner";
 
 export default class UpdateBank extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       bankId: "",
       bankName: "",
       bankImageLink: "",
@@ -19,6 +20,13 @@ export default class UpdateBank extends Component {
       active: "Y",
       listCountry: []
     };
+  }
+
+  async componentDidMount() {
+    const { id } = this.props.match.params
+    console.log(id);
+    await this.getDetailBank(id);
+    await this.getListCountry();
   }
 
   //onChangeForm
@@ -123,8 +131,8 @@ export default class UpdateBank extends Component {
     );
   };
 
-  getDetailBank = () =>{
-    Api.get("/v1/bank/detail/", {
+  getDetailBank = (id) =>{
+    Api.get("/v1/bank/detail/"+id, {
         headers: {
           Authorization: getToken(),
         },
@@ -137,6 +145,9 @@ export default class UpdateBank extends Component {
               bankImageLink:bank.bankImageLink,
               countryCode:bank.countryCode,
               active:bank.active
+          });
+          this.setState({
+            isLoading: false
           });
         },
         (error) => {
@@ -151,11 +162,6 @@ export default class UpdateBank extends Component {
       );
   }
 
-  async componentDidMount() {
-    await this.getDetailBank();
-    await this.getListCountry();
-  }
-
   renderCountyList = () => {
     return this.state.listCountry.map((countries, index) => {
       const { countryCode, countryName } = countries;
@@ -166,8 +172,9 @@ export default class UpdateBank extends Component {
       );
     });
   };
-  render() {
-    return (
+
+  renderForm (){
+    return(
       <div className="">
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
           <h3 className="h3">Edit Bank</h3>
@@ -277,6 +284,13 @@ export default class UpdateBank extends Component {
           </div>
         </div>
       </div>
+    )
+  }
+  render() {
+    return (
+      <div>
+        {this.state.isLoading ? <Spinner /> :this.renderForm()}
+      </div>  
     );
   }
 }

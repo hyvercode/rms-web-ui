@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Api from "../../../adaptor/Api";
 import { getToken, removeUserSession } from "../../../utils/Common";
+import Spinner from "../../../component/loading/Spinner";
 
 export default class Bank extends Component {
   constructor(props) {
@@ -62,16 +63,16 @@ export default class Bank extends Component {
     await this.getListBank();
   }
 
+  onEdit(id){
+    this.props.history.push('/bank/update-bank/'+id);
+  }
+
   renderTableData() {
     return this.state.banks.map((bank, index) => {
       const { bankId,bankName,countryCode, active } = bank; //destructuring
+      let id=bankId;
       return (
         <tr key={bankId}>
-          <td>
-            <div className="checkbox">
-              <input type="checkbox" />
-            </div>
-          </td>
           <td>
             {this.state.pagination.pageSize *
               (this.state.pagination.currentPage - 1) +
@@ -82,13 +83,13 @@ export default class Bank extends Component {
           <td>{bankName}</td>
           <td>{countryCode}</td>
           <td>{active == "Y" ? "Yes" : "No"}</td>
-          <td>
-            <Link
+          <td className="action-button">
+            <button
                 className="btn btn-sm btn-outline-secondary"
-                to="/bank/update-bank/014"
+                onClick={() => this.onEdit(bankId)}
               >
               Edit
-            </Link>
+            </button>
             <button
                 className="btn btn-sm btn-outline-secondary"
               >
@@ -144,11 +145,6 @@ export default class Bank extends Component {
           <table className="table table-striped table-md">
             <thead>
               <tr>
-                <th>
-                  <div className="checkbox">
-                    <input type="checkbox" />
-                  </div>
-                </th>
                 <th>No</th>
                 <th>Bank Id</th>
                 <th>Bank Name</th>
@@ -157,11 +153,11 @@ export default class Bank extends Component {
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>{this.renderTableData()}</tbody>
+            {this.state.isLoading ? <Spinner /> :<tbody>{this.renderTableData()}</tbody>}
           </table>
         </div>
         {/* Pagination */}
-        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 pagination">
           <div className="btn-toolbar mb-2 mb-md-0">
             <label style={{ marginTop: 5 }}>Record : </label>
             <select

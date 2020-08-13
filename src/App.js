@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import "./App.scss";
+import "./index.scss";
 import $ from "jquery";
 import PopperJs from "popper.js";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -33,6 +33,7 @@ export default function App() {
                     <PrivateRoute exact path="/dashboard" component={Dashboard} />
                     <PrivateRoute exact path="/country" component={Country} />
                     <PrivateRoute exact path="/create-country" component={CreateCountry} />
+                    <PrivateRoute exact path="/bank/update-country/:id" component={CreateCountry} />
                     <PrivateRoute exact path="/bank" component={Bank} />
                     <PrivateRoute exact path="/bank/create-bank" component={CreateBank} />
                     <PrivateRoute exact path="/bank/update-bank/:id" component={UpdateBank} />
