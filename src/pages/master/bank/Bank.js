@@ -109,14 +109,14 @@ export default class Bank extends Component {
   async onPrev() {
     if (this.state.pagination.currentPage != 1) {
       await this.setState({ pageNumber: this.state.pageNumber - 1 });
-      await this.getListBank;
+      await this.getListBank();
     }
   }
 
   async onNext() {
     if (this.state.pagination.currentPage < this.state.pagination.totalPages) {
       await this.setState({ pageNumber: this.state.pageNumber + 1 });
-      await this.getListBank;
+      await this.getListBank();
     }
   }
 
