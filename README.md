@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### DEMO
+url : https://www.demo.alfaz.id/
+username : root
+password : root
 
 ## Available Scripts
 
