@@ -1,5 +1,5 @@
 ### DEMO
-url : https://www.demo.alfaz.id/
+url : http://rms.alfaz.id/
 username : root
 password : root
 
