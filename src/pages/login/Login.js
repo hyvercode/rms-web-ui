@@ -7,8 +7,8 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state ={
-        username:"",
-        password:"",
+        username:"admin@admin.com",
+        password:"Admin@123!",
         isLoading:false
     }
   }
@@ -27,7 +27,7 @@ export default class Login extends Component {
   }
   // handle button click of login form
   handleLogin = () => {
-    if(this.state.username !="" && this.state.password !==""){
+    if(this.state.username !=="" && this.state.password !==""){
       this.setState({
         isLoading:true
       })
