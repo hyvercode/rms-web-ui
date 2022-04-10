@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><title>vue | admin</title><link rel="preconnect" href="https://api.grosirmotor.id"><script>function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(storePosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function storePosition(position) {
+            localStorage.setItem('coordinate', position.coords.latitude + ',' + position.coords.longitude);
+        }
+
+        getLocation();</script><link rel="manifest" href="manifest.json"><link href="/css/chunk-3afc1517.d03aab89.css" rel="prefetch"><link href="/css/chunk-3f9f0186.91412d7a.css" rel="prefetch"><link href="/css/chunk-bc0e964e.d847877b.css" rel="prefetch"><link href="/css/chunk-d321b550.3c3fc6ff.css" rel="prefetch"><link href="/css/chunk-fb97979c.dece9b28.css" rel="prefetch"><link href="/js/chunk-2d216214.cece44c1.js" rel="prefetch"><link href="/js/chunk-2d216257.1caeb235.js" rel="prefetch"><link href="/js/chunk-3afc1517.af493d2e.js" rel="prefetch"><link href="/js/chunk-3f9f0186.2a101be1.js" rel="prefetch"><link href="/js/chunk-519cc066.11b8f1c0.js" rel="prefetch"><link href="/js/chunk-bc0e964e.345f4054.js" rel="prefetch"><link href="/js/chunk-d321b550.7dfd6682.js" rel="prefetch"><link href="/js/chunk-fb97979c.25a6b128.js" rel="prefetch"><link href="/css/app.d6363b2c.css" rel="preload" as="style"><link href="/css/chunk-vendors.501b2389.css" rel="preload" as="style"><link href="/js/app.c6aabaa2.js" rel="preload" as="script"><link href="/js/chunk-vendors.fb243b1e.js" rel="preload" as="script"><link href="/css/chunk-vendors.501b2389.css" rel="stylesheet"><link href="/css/app.d6363b2c.css" rel="stylesheet"></head><body><script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script><script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-messaging.js"></script><script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-analytics.js"></script><script>// Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBJqNVwk-6ecGRzcRbwrEqBJ9mjqZUdJH8",
+        authDomain: "gmot-dev.firebaseapp.com",
+        projectId: "gmot-dev",
+        storageBucket: "gmot-dev.appspot.com",
+        messagingSenderId: "382565803534",
+        appId: "1:382565803534:web:3660c97ac562a57d1cbe5f",
+        measurementId: "G-S2C2GWBZLM"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const messaging = firebase.messaging();
+
+    if ('serviceWorker' in navigator) {
+
+    }
+
+    messaging.requestPermission()
+        .then(function () {
+            return messaging.getToken();
+        })
+        .then(function (token) {
+            localStorage.setItem('_fcmid_', token);
+        })
+        .catch(function (err) {
+            console.log('error', err);
+        });
+
+    messaging.onMessage(function (payload) {
+        console.log('Message received. ', payload);
+    });</script><div id="app"></div><script src="https://unpkg.com/vue-screen/dist/vue-screen.min.js"></script><script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script><script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr3NS3Tb_taWdVqNQFSTJ5TlvvhN9gV08&amp;libraries=places&amp;"></script><script src="/js/chunk-vendors.fb243b1e.js"></script><script src="/js/app.c6aabaa2.js"></script></body></html>
