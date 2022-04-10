@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  gmot-admin:
+    container_name: gmot-admin
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '4000:3000'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
